@@ -84,8 +84,11 @@ resource "google_compute_backend_bucket" "backend" {
   description = "Backend bucket for SPA ${var.service_id}"
   bucket_name = google_storage_bucket.assets.name
   enable_cdn  = var.enable_cdn
+
+  # We don't trust the browser code, but this still leaves a too large
+  # attack surface (TODO).
   custom_response_headers = [
-    "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'"
+    "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' 'unsafe-eval'"
   ]
 }
 
