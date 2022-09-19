@@ -115,7 +115,6 @@ module "loadbalancer" {
   ]
   count             = (var.with_loadbalancer) ? 1 : 0
   source            = "./modules/loadbalancer"
-  acme_email        = var.acme_email
   acme_domain       = var.bucket_name
   dns_project       = var.dns_project
   dns_zone          = var.dns_zone
