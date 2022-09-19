@@ -178,7 +178,7 @@ resource "google_cloud_run_service" "default" {
 
         env {
           name  = "HTTP_LOGLEVEL"
-          value = "CRITICAL"
+          value = var.http_loglevel
         }
 
         env {

@@ -58,6 +58,12 @@ variable "enable_cdn" {
   default = true
 }
 
+variable "http_loglevel" {
+  default     = "CRITICAL"
+  type        = string
+  description = "Specifies the log level used by the HTTP server."
+}
+
 variable "isolate" {
   type    = bool
   default = true

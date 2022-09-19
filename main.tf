@@ -99,6 +99,7 @@ module "oauth2" {
   client_id         = var.oauth_client_id
   deployers         = var.deployers
   deployment_env    = var.deployment_env
+  http_loglevel     = var.http_loglevel
   image             = var.oauth_image
   keyring_name      = "${var.service_id}-${random_string.project_suffix.result}"
   keyring_location  = var.keyring_location

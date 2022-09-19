@@ -32,6 +32,10 @@ variable "deployment_env" {
   type = string
 }
 
+variable "http_loglevel" {
+  type        = string
+}
+
 variable "invokers" {
   type = list(string)
   default = ["allUsers"]
