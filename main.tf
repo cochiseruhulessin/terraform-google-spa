@@ -31,6 +31,7 @@ resource "google_project_service" "required" {
   for_each = toset(
     concat([
       "cloudkms.googleapis.com",
+      "cloudscheduler.googleapis.com",
       "compute.googleapis.com",
       "run.googleapis.com",
       "secretmanager.googleapis.com",
@@ -133,4 +134,19 @@ module "dns" {
   source      = "./modules/dns"
   dns_project = var.dns_project
   dns_zone    = var.dns_zone
+}
+
+resource "google_cloud_scheduler_job" "keepalive" {
+  depends_on        = [google_project_service.required]
+  for_each          = toset((var.ping_schedule == null) ? [] : var.ping_locations)
+  project           = local.project
+  name              = "${var.service_id}-${random_string.project_suffix.result}-keepalive"
+  attempt_deadline  = "30s"
+  schedule          = var.ping_schedule
+  region            = each.key
+
+  http_target {
+    http_method = "GET"
+    uri         = "https://${var.bucket_name}/api/oauth/v2/jwks.json"
+  }
 }
