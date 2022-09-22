@@ -89,7 +89,8 @@ resource "google_compute_backend_bucket" "backend" {
   # We don't trust the browser code, but this still leaves a too large
   # attack surface (TODO).
   custom_response_headers = [
-    "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'"
+    "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'",
+    "Strict-Transport-Security: max-age=15552000; includeSubDomains",
   ]
 }
 
