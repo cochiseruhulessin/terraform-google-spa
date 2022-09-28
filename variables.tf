@@ -77,6 +77,12 @@ variable "location" {
   type = string
 }
 
+variable "oauth_allow_client_id" {
+  description = "Allow the client to specify the `client_id` parameter."
+  type        = bool
+  default     = false
+}
+
 variable "oauth_allow_claims" {
   description = "Allow the client to specify the `claims` parameter."
   type        = bool
@@ -89,7 +95,7 @@ variable "oauth_client_id" {
 
 variable "oauth_image" {
   type    = string
-  default = "europe-docker.pkg.dev/unimatrixops/webid/agent@sha256:67613504920e3d38fc91e33a97079560c236a67fdd3092b564da575926214f81"
+  default = "europe-docker.pkg.dev/unimatrixops/webid/agent@sha256:7dd46303a09f958b9b93c1f3fd54c34b4d07390cc53ff6d0504388ebba32f9f9"
 }
 
 variable "oauth_scope" {

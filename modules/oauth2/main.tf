@@ -192,6 +192,11 @@ resource "google_cloud_run_service" "default" {
         }
 
         env {
+          name  = "OAUTH_ALLOW_CLIENT_ID"
+          value = (var.allow_client_id) ? "1" : "0"
+        }
+
+        env {
           name  = "OAUTH_CLIENT"
           value = var.client_id
         }
