@@ -99,7 +99,7 @@ resource "google_compute_backend_bucket" "backend" {
 
 module "oauth2" {
   depends_on        = [google_project_service.required]
-  allow_client_id   = var.allow_client_id
+  allow_client_id   = var.oauth_allow_client_id
   allow_claims      = var.oauth_allow_claims
   api_config        = var.api_config
   client_id         = var.oauth_client_id

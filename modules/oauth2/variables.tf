@@ -11,7 +11,7 @@ variable "allow_claims" {
   default     = false
 }
 
-variable "oauth_allow_client_id" {
+variable "allow_client_id" {
   type        = bool
   default     = false
 }
