@@ -77,6 +77,11 @@ variable "location" {
   type = string
 }
 
+variable "name_prefix" {
+  type    = string
+  default = null
+}
+
 variable "oauth_allow_client_id" {
   description = "Allow the client to specify the `client_id` parameter."
   type        = bool

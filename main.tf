@@ -53,7 +53,7 @@ resource "random_string" "project_suffix" {
 resource "google_project" "service" {
   count           = (var.isolate) ? 1 : 0
   name            = var.service_name
-  project_id      = "${var.project}-${random_string.project_suffix.result}"
+  project_id      = "${(var.name_prefix != null) ? var.name_prefix : var.project}-${random_string.project_suffix.result}"
   billing_account = var.billing_account
   org_id          = var.org_id
 }
