@@ -31,10 +31,6 @@ resource "random_string" "tls" {
 }
 
 resource "google_compute_managed_ssl_certificate" "tls" {
-  depends_on = [
-    google_dns_record_set.dns,
-    google_dns_record_set.altnames
-  ]
   project = var.project 
   name    = "${var.name}-${random_string.tls.result}"
 
