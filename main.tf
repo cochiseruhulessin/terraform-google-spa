@@ -127,6 +127,7 @@ module "loadbalancer" {
   count             = (var.with_loadbalancer) ? 1 : 0
   source            = "./modules/loadbalancer"
   acme_domain       = var.bucket_name
+  dns_altnames      = var.dns_altnames
   dns_project       = var.dns_project
   dns_zone          = var.dns_zone
   name              = "${var.service_id}-${random_string.project_suffix.result}"
@@ -136,10 +137,11 @@ module "loadbalancer" {
 }
 
 module "dns" {
-  count       = (var.with_dns) ? 1 : 0
-  source      = "./modules/dns"
-  dns_project = var.dns_project
-  dns_zone    = var.dns_zone
+  count         = (var.with_dns) ? 1 : 0
+  source        = "./modules/dns"
+  dns_altnames  = var.dns_altnames
+  dns_project   = var.dns_project
+  dns_zone      = var.dns_zone
 }
 
 resource "google_cloud_scheduler_job" "keepalive" {

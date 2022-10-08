@@ -8,17 +8,45 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 terraform {}
 
+data "google_dns_managed_zone" "altnames" {
+  for_each = {
+    for spec in var.dns_altnames:
+    "${spec.project}/${spec.zone}" => spec
+  }
+  project = each.value.project
+  name    = each.value.name
+}
+
+resource "random_string" "tls" {
+  length  = 6
+  special = false
+  upper   = false
+
+  keepers = {
+    domains = join(";", sort(concat(
+      ["${var.acme_domain}."],
+      [for spec in var.dns_altnames: spec.name]
+    )))
+  }
+}
 
 resource "google_compute_managed_ssl_certificate" "tls" {
+  depends_on = [
+    google_dns_record_set.dns,
+    google_dns_record_set.altnames
+  ]
   project = var.project 
-  name    = var.name
+  name    = "${var.name}-${random_string.tls.result}"
 
   lifecycle {
     create_before_destroy = true
   }
 
   managed {
-    domains = ["${var.acme_domain}."]
+    domains = concat(
+      ["${var.acme_domain}."],
+      [for spec in var.dns_altnames: spec.name]
+    )
   }
 }
 
@@ -39,7 +67,10 @@ resource "google_compute_url_map" "urls" {
   default_service       = var.spa_backend_id
 
   host_rule {
-    hosts = [var.acme_domain]
+    hosts = concat(
+      [var.acme_domain],
+      [for spec in var.dns_altnames: spec.name]
+    )
     path_matcher = "spa"
   }
 
@@ -109,6 +140,25 @@ resource "google_dns_record_set" "dns" {
   managed_zone  = var.dns_zone
   project       = var.dns_project
   name          = "${var.acme_domain}."
+  type          = "A"
+  ttl           = 60
+  rrdatas       = [for spec in google_compute_global_address.ipv4: spec.address]
+}
+
+resource "google_dns_record_set" "altnames" {
+  depends_on    = [
+    data.google_dns_managed_zone.altnames,
+    google_compute_global_address.ipv4
+  ]
+  for_each      = {
+    for spec in var.dns_altnames:
+    spec.name => merge(spec, {
+      ref = "${spec.project}/${spec.zone}"
+    })
+  }
+  managed_zone  = each.value.zone
+  project       = each.value.project
+  name          = "${each.value.name}."
   type          = "A"
   ttl           = 60
   rrdatas       = [for spec in google_compute_global_address.ipv4: spec.address]

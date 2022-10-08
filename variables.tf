@@ -52,6 +52,17 @@ variable "deployment_env" {
   type = string
 }
 
+variable "dns_altnames" {
+  type    = list(
+    object({
+      project = string
+      zone    = string
+      name    = string
+    })
+  )
+  default = []
+}
+
 variable "dns_project" {
   type = string
 }
