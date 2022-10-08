@@ -98,24 +98,25 @@ resource "google_compute_backend_bucket" "backend" {
 }
 
 module "oauth2" {
-  depends_on        = [google_project_service.required]
-  allow_client_id   = var.oauth_allow_client_id
-  allow_claims      = var.oauth_allow_claims
-  api_config        = var.api_config
-  client_id         = var.oauth_client_id
-  deployers         = var.deployers
-  deployment_env    = var.deployment_env
-  http_loglevel     = var.http_loglevel
-  image             = var.oauth_image
-  keyring_name      = "${var.service_id}-${random_string.project_suffix.result}"
-  keyring_location  = var.keyring_location
-  locations         = var.api_locations
-  project           = local.project
-  redirect_uri      = "https://${var.bucket_name}${var.oauth_callback_path}"
-  scope             = var.oauth_scope
-  server            = var.oauth_server
-  source            = "./modules/oauth2"
-  suffix            = random_string.project_suffix.result
+  depends_on          = [google_project_service.required]
+  allow_client_id     = var.oauth_allow_client_id
+  allow_claims        = var.oauth_allow_claims
+  allow_redirect_uri  = var.oauth_allow_redirect_uri
+  api_config          = var.api_config
+  client_id           = var.oauth_client_id
+  deployers           = var.deployers
+  deployment_env      = var.deployment_env
+  http_loglevel       = var.http_loglevel
+  image               = var.oauth_image
+  keyring_name        = "${var.service_id}-${random_string.project_suffix.result}"
+  keyring_location    = var.keyring_location
+  locations           = var.api_locations
+  project             = local.project
+  redirect_uri        = "https://${var.bucket_name}${var.oauth_callback_path}"
+  scope               = var.oauth_scope
+  server              = var.oauth_server
+  source              = "./modules/oauth2"
+  suffix              = random_string.project_suffix.result
 }
 
 module "loadbalancer" {

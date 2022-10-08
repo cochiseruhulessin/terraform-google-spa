@@ -8,6 +8,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 variable "api_config" {
   default = {}
+  type    = object({
+    scope: string
+    resources: map(any)
+  })
 }
 
 variable "api_locations" {
@@ -90,6 +94,12 @@ variable "oauth_allow_client_id" {
 
 variable "oauth_allow_claims" {
   description = "Allow the client to specify the `claims` parameter."
+  type        = bool
+  default     = false
+}
+
+variable "oauth_allow_redirect_uri" {
+  description = "Allow the client to specify the `redirect_uri` parameter."
   type        = bool
   default     = false
 }

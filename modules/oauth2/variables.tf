@@ -16,6 +16,11 @@ variable "allow_client_id" {
   default     = false
 }
 
+variable "allow_redirect_uri" {
+  type        = bool
+  default     = false
+}
+
 variable "api_config" {
   default = {}
 }
