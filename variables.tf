@@ -7,9 +7,12 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 variable "api_config" {
-  default = {}
+  default = {
+    scope: [],
+    resources: {}
+  }
   type    = object({
-    scope: string
+    scope: list(string)
     resources: map(any)
   })
 }
