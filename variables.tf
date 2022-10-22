@@ -124,7 +124,7 @@ variable "oauth_client_id" {
 
 variable "oauth_image" {
   type    = string
-  default = "europe-docker.pkg.dev/unimatrixops/webid/agent@sha256:0eb634af47e41378fa6d50dbaa5a3862b721f7d818b1329968493ff8fe50a361"
+  default = "europe-docker.pkg.dev/unimatrixops/webid/agent@sha256:5ceb0812db9fdb383e9059201940dedcb1aef24c387e58a320796eadf7fd44d8"
 }
 
 variable "oauth_scope" {
